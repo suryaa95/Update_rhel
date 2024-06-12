@@ -1,0 +1,17 @@
+#########################################################3
+for user in `cat users.txt`
+do
+    ldapsearch -b dc=suryabhopal,dc=ac,dc=in -x uid=$user -s sub "cn=%s"  -o ldif-wrap=no -LLL >> users_with_ou
+done
+
+##############################################
+
+ldapdelete -v -c -D "cn=Manager,dc=suryabhopal,dc=ac,dc=in" -W -f users_with_ou
+
+
+##########################################################################################
+for user in `cat bsms`
+do
+    ldapdelete -v -c -D cn=Manager,dc=suryabhopal,dc=ac,dc=in -w "Admin@123#" uid="$user",ou=bsms,ou=students,ou=alpa,ou=iiserb,dc=iiserbhopal,dc=ac,dc=in
+done
+############################################
